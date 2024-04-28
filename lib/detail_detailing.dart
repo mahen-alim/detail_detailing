@@ -41,6 +41,12 @@ class _DetailPageState extends State<DetailPage> {
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final String title = args['title']!;
+
+    // Mendapatkan deskripsi berdasarkan nilai title
+    // final String description = _get.isNotEmpty
+    //     ? _get.firstWhere(
+    //         (detail) => detail['type_service'] == title)['description']
+    //     : '';
     final String imagePath = args['imagePath']!;
     return Scaffold(
       appBar: AppBar(
@@ -138,7 +144,10 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        _get.isNotEmpty ? _get[0]['description'] : '',
+                        _get.isNotEmpty
+                            ? _get.firstWhere((detail) =>
+                                detail['type_service'] == title)['description']
+                            : '',
                         textAlign: TextAlign.justify,
                       ),
                       const SizedBox(height: 15),
@@ -150,7 +159,10 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        _get.isNotEmpty ? _get[0]['benefit'] : '',
+                        _get.isNotEmpty
+                            ? _get.firstWhere((detail) =>
+                                detail['type_service'] == title)['benefit']
+                            : '',
                         textAlign: TextAlign.justify,
                       ),
                       const SizedBox(height: 15),
@@ -162,7 +174,11 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        _get.isNotEmpty ? _get[0]['price'] : '',
+                        _get.isNotEmpty
+                            ? _get.firstWhere((detail) =>
+                                detail['type_service'] == title)['price']
+                            : '',
+                        textAlign: TextAlign.justify,
                       ),
                       const SizedBox(height: 15),
                       const Text(
@@ -173,7 +189,11 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        _get.isNotEmpty ? _get[0]['duration'] : '',
+                        _get.isNotEmpty
+                            ? _get.firstWhere((detail) =>
+                                detail['type_service'] == title)['duration']
+                            : '',
+                        textAlign: TextAlign.justify,
                       ),
                       const SizedBox(height: 15),
                       const Text(
