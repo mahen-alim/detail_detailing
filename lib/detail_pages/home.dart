@@ -36,7 +36,7 @@ class HomeState extends State<Home> {
   Future _getData() async {
     try {
       final response = await http
-          .get(Uri.parse("http://172.16.103.233/latihan/note_app/list.php"));
+          .get(Uri.parse("http://192.168.48.236/latihan/note_app/list.php"));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);

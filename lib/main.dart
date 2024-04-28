@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:js_interop';
 import 'dart:ui';
+import 'package:crud_flutter/detail_detailing.dart';
 import 'package:crud_flutter/detail_pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'detail_pages/add.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -83,7 +86,7 @@ class HomePage extends StatelessWidget {
                                         width:
                                             8), // Spasi antara gambar dan teks
                                     const Text(
-                                      'Detail Detailing',
+                                      'Detailing Terlaris',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -115,16 +118,6 @@ class HomePage extends StatelessWidget {
                       Colors.white, 'assets/kacamobil.png'),
                 ],
               ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Image.asset(
-              'assets/aa.png',
-              width: 500,
-              height: 500,
-              fit: BoxFit.cover,
             ),
           ),
         ],
@@ -191,230 +184,6 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class DetailPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final String title = args['title']!;
-    final String imagePath = args['imagePath']!;
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // Menghilangkan tombol kembali
-      ),
-      body: SingleChildScrollView(
-        reverse: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10), // Tambahkan padding di sini
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .center, // Posisikan widget Row di tengah
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back),
-                      color: const Color.fromRGBO(255, 133, 119, 1),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Center(
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                15.0), // Atur sudut radius sesuai kebutuhan
-                            side: const BorderSide(
-                              color: Color.fromRGBO(
-                                  255, 133, 119, 1), // Warna border
-                              width: 2.0, // Ketebalan border
-                            ),
-                          ),
-                          color: Colors.white, // Warna background
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: Image.asset(
-                                    'assets/bag.png',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  title,
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(
-                                        255, 133, 119, 1), // Warna teks
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Image.asset(
-                  imagePath,
-                  width: 100,
-                  height: 300,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Deskripsi:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4.0),
-                      const Text(
-                        'Interior detailing adalah proses pembersihan dan perawatan dalam kendaraan untuk menjaga kebersihan, keamanan, dan kenyamanan penggunanya. Ini melibatkan pembersihan mendalam dari setiap bagian interior kendaraan, termasuk kursi, karpet, panel pintu, konsol, jok, dan area lainnya. Selama proses interior detailing, berbagai teknik dan produk pembersih khusus digunakan untuk menghilangkan debu, kotoran, noda, dan bau yang menempel pada permukaan interior kendaraan. Ini bisa meliputi vakum, pembersihan kering, pembersihan basah, penghilangan noda, dan perlindungan permukaan.',
-                        textAlign: TextAlign.justify,
-                      ),
-                      const SizedBox(height: 15),
-                      const Text(
-                        'Manfaat:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4.0),
-                      const Text(
-                        'Kebersihan: Interior detailing membantu menjaga kebersihan dan higienitas kendaraan dengan menghilangkan debu, kotoran, dan bakteri yang menumpuk di dalamnya. Kenyamanan: Kendaraan yang bersih dan segar dari interior detailing menciptakan lingkungan yang nyaman untuk pengemudi dan penumpang. Kesehatan: Menghilangkan kotoran dan bakteri dari interior kendaraan juga dapat berkontribusi pada kesehatan pengemudi dan penumpang dengan mengurangi risiko alergi dan penyakit. Estetika: Interior detailing membantu menjaga penampilan dan nilai estetika kendaraan dengan merawat material interior dan menjaga kebersihan permukaannya. Nilai Mobil: Dengan merawat interior kendaraan secara teratur, Anda dapat mempertahankan nilai jual mobil yang tinggi karena interior yang terawat dengan baik memberikan kesan yang positif kepada calon pembeli.',
-                        textAlign: TextAlign.justify,
-                      ),
-                      const SizedBox(height: 15),
-                      const Text(
-                        'Harga:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4.0),
-                      const Text(
-                        'Rp 200.000',
-                      ),
-                      const SizedBox(height: 15),
-                      const Text(
-                        'Durasi Pengerjaan:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4.0),
-                      const Text(
-                        '2 jam',
-                      ),
-                      const SizedBox(height: 15),
-                      const Text(
-                        'Hasil Detailing',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          const SizedBox(height: 8.0),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Image.asset(
-                                  imagePath,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SizedBox(width: 8.0),
-                              Expanded(
-                                child: Image.asset(
-                                  imagePath,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SizedBox(width: 8.0),
-                              Expanded(
-                                child: Image.asset(
-                                  imagePath,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8.0),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      const Text(
-                        'Ulasan:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4.0),
-                      const Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                        textAlign: TextAlign.justify,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color.fromRGBO(255, 133, 119, 1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                      child: const Text(
-                        "Pesan",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/pesan_detailing',
-                          arguments: title,
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
     );

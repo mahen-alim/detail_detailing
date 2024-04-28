@@ -42,20 +42,21 @@ class _AddState extends State<Add> {
 
   Future<void> _onSubmit() async {
     try {
+      // Mengubah nilai boolean dari selectedDetailing menjadi '1' jika dicentang, dan '0' jika tidak dicentang
       String selectedDetailingString = selectedDetailing
           .map((isSelected) => isSelected ? '1' : '0')
           .join(',');
+
       var response = await http.post(
-        Uri.parse("http://172.16.103.233/latihan/note_app/create.php"),
+        Uri.parse("http://192.168.48.236/latihan/note_app/create.php"),
         body: {
           "car_type": carTypeController.text,
-          "complain": selectedComplaint ??
-              '', // Menggunakan selectedComplaintController
+          "complain": selectedComplaint ?? '',
           "detailing_serve": selectedDetailingString,
           "price": priceController.text,
           "date": selectedDate != null
               ? DateFormat('yyyy-MM-dd').format(selectedDate!)
-              : '', // Menggunakan selectedDate yang diformat jika tersedia
+              : '',
         },
       );
       var data = jsonDecode(response.body);
